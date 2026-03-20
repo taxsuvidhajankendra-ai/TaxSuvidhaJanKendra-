@@ -1,0 +1,57 @@
+{
+  "entities": {
+    "Lead": {
+      "title": "Lead",
+      "description": "A customer lead from a form submission.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Customer's full name" },
+        "phone": { "type": "string", "description": "Customer's phone number" },
+        "message": { "type": "string", "description": "Customer's message" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the lead was created" },
+        "status": { "type": "string", "enum": ["new", "contacted", "closed"], "description": "Current status of the lead" }
+      },
+      "required": ["name", "phone", "message", "createdAt"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "A message in the live chat system.",
+      "type": "object",
+      "properties": {
+        "text": { "type": "string", "description": "Content of the message" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the message was sent" },
+        "isAdmin": { "type": "boolean", "description": "Whether the message was sent by an admin" },
+        "sessionId": { "type": "string", "description": "Unique ID for the chat session/user" },
+        "senderName": { "type": "string", "description": "Name of the sender" }
+      },
+      "required": ["text", "createdAt", "isAdmin", "sessionId"]
+    },
+    "SocialPost": {
+      "title": "SocialPost",
+      "description": "A social media post or manual upload.",
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "enum": ["image", "video"], "description": "Type of media" },
+        "url": { "type": "string", "description": "URL to the media file" },
+        "caption": { "type": "string", "description": "Text caption for the post" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the post was added" },
+        "source": { "type": "string", "enum": ["manual", "instagram", "facebook"], "description": "Where the post came from" }
+      },
+      "required": ["type", "url", "createdAt", "source"]
+    }
+  },
+  "firestore": {
+    "/leads/{leadId}": {
+      "schema": "Lead",
+      "description": "Collection of customer leads"
+    },
+    "/chats/{chatId}": {
+      "schema": "ChatMessage",
+      "description": "Collection of live chat messages"
+    },
+    "/social_posts/{postId}": {
+      "schema": "SocialPost",
+      "description": "Collection of social media posts and manual uploads"
+    }
+  }
+}
